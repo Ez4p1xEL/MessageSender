@@ -1,0 +1,14 @@
+# The version of the config and plugin.
+Version: 1.0.0
+
+# The language of the plugin.
+# Eng: English, zh_CN: Simplified Chinese.
+Language: zh_CN
+
+title:
+  # time in ticks for titles to fade in. Defaults to 10.
+  fadeIn: 10
+  # time in ticks for titles to stay. Defaults to 70.
+  stay: 70
+  # time in ticks for titles to fade out. Defaults to 20.
+  fadeOut: 20
