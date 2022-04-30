@@ -5,6 +5,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import p1xel.messagesender.Commands.SM;
 import p1xel.messagesender.MessageSender;
 
 import java.io.File;
@@ -28,40 +29,6 @@ public class Locale {
         File folder = new File(MessageSender.getInstance().getDataFolder(), "/locale");
         File file = new File(folder, "Eng.yml");
         return YamlConfiguration.loadConfiguration(file);
-
-    }
-
-    public static void set(String path, Object value) {
-
-        if (MessageSender.getInstance().getConfig().getString("Language").equalsIgnoreCase("zh_CN")) {
-            File folder = new File(MessageSender.getInstance().getDataFolder(), "/locale");
-            File file = new File(folder, "zh_CN.yml");
-            FileConfiguration yaml = YamlConfiguration.loadConfiguration(file);
-
-            yaml.set(path, value);
-
-            try {
-                yaml.save(file);
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
-            }
-        }
-
-        if (MessageSender.getInstance().getConfig().getString("Language").equalsIgnoreCase("Eng")) {
-            File folder = new File(MessageSender.getInstance().getDataFolder(), "/locale");
-            File file = new File(folder, "Eng.yml");
-            FileConfiguration yaml = YamlConfiguration.loadConfiguration(file);
-
-            yaml.set(path, value);
-
-            try {
-                yaml.save(file);
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
-            }
-        }
-
-
 
     }
 
@@ -93,6 +60,10 @@ public class Locale {
             zhCNyaml.set("invalid-player", "&c玩家没找到, 可尝试@a发送全部玩家");
             zhCNyaml.set("message-sent", "&a消息发送成功!");
             zhCNyaml.set("no-perm", "&c你没有权限执行该指令!");
+
+            zhCNyaml.set("papi-loaded", "&ePlaceholderAPI功能已加载!");
+            zhCNyaml.set("papi-not-loaded", "&c找不到PlaceholderAPI, 已卸载有关功能!");
+            zhCNyaml.set("announcement-player-not-found", "找不到玩家 %player%, 已取消发送公告 %name%");
 
             try {
                 zhCNyaml.save(zhCNFile);
@@ -129,6 +100,10 @@ public class Locale {
             Engyaml.set("message-sent", "&aMessage sent successful!");
             Engyaml.set("no-perm", "&cYou have no permission to do that!");
 
+            Engyaml.set("papi-loaded", "&ePlaceholderAPI function loaded!");
+            Engyaml.set("papi-not-loaded", "&cCan't find PlaceholderAPI. Function disabled!");
+            Engyaml.set("announcement-player-not-found", "Can't find %player%, %name% announcement is canceled automatically!");
+
             try {
                 Engyaml.save(EngFile);
             } catch (IOException ioException) {
@@ -145,7 +120,11 @@ public class Locale {
     }
 
     public static String parsePapi(String message, Player p) {
-        return PlaceholderAPI.setPlaceholders(p, message.replaceAll("%s", " "));
+        if (MessageSender.isPAPILoaded()) {
+            return PlaceholderAPI.setPlaceholders(p, message.replaceAll("%s", " "));
+        } else {
+            return ChatColor.translateAlternateColorCodes('&', message);
+        }
     }
 
 }

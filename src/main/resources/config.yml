@@ -3,7 +3,7 @@ Version: 1.0.0
 
 # The language of the plugin.
 # Eng: English, zh_CN: Simplified Chinese.
-Language: zh_CN
+Language: Eng
 
 title:
   # time in ticks for titles to fade in. Defaults to 10.
